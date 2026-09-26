@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="$FLUTTER_BASE_HREF">
+
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="Mahalla Members Form" name="apple-mobile-web-app-title">
+    <meta content="Mahalla Members Form" name="description">
+    <meta content="yes" name="mobile-web-app-capable">
+    <meta content="#7ED957" name="theme-color">
+
+    <link href="icons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+    <link href="favicon.png" rel="icon" type="image/png" />
+    <link href="manifest.json" rel="manifest">
+
+    <title>Mahalla Members Form</title>
+
+    <style>
+        html,
+        body {
+          background: linear-gradient(180deg, #D4EDD4 0%, #F5F3E8 100%);
+          height: 100%;
+          margin: 0;
+          overflow: hidden;
+          padding: 0;
+          width: 100%;
+        }
+
+        #splash {
+          align-items: center;
+          background: linear-gradient(180deg, #D4EDD4 0%, #F5F3E8 100%);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          justify-content: center;
+          left: 0;
+          position: fixed;
+          top: 0;
+          transition: opacity 0.5s ease-out;
+          width: 100%;
+          z-index: 9999;
+        }
+
+        #splash.fade-out {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .spinner {
+          height: 20px;
+          position: relative;
+          width: 20px;
+        }
+
+        .spinner div {
+          animation: tick 1s step-end infinite;
+          background: #3C3C44;
+          border-radius: 1px;
+          height: 6.667px;
+          left: 9px;
+          position: absolute;
+          top: 0;
+          transform-origin: 1px 10px;
+          width: 2px;
+        }
+
+        .spinner div:nth-child(1) { animation-delay: -0.875s; transform: rotate(0deg); }
+        .spinner div:nth-child(2) { animation-delay: -0.75s; transform: rotate(45deg); }
+        .spinner div:nth-child(3) { animation-delay: -0.625s; transform: rotate(90deg); }
+        .spinner div:nth-child(4) { animation-delay: -0.5s; transform: rotate(135deg); }
+        .spinner div:nth-child(5) { animation-delay: -0.375s; transform: rotate(180deg); }
+        .spinner div:nth-child(6) { animation-delay: -0.25s; transform: rotate(225deg); }
+        .spinner div:nth-child(7) { animation-delay: -0.125s; transform: rotate(270deg); }
+        .spinner div:nth-child(8) { animation-delay: 0s; transform: rotate(315deg); }
+
+        @keyframes tick {
+          0% {
+            opacity: 0.576;
+          }
+
+          12.5% {
+            opacity: 0.478;
+          }
+
+          25% {
+            opacity: 0.38;
+          }
+
+          37.5% {
+            opacity: 0.282;
+          }
+
+          50%,
+          100% {
+            opacity: 0.184;
+          }
+        }
+    </style>
+    <script>
+        window.addEventListener('flutter-first-frame', function() {
+          const splash = document.getElementById('splash');
+          if (splash) {
+            splash.classList.add('fade-out');
+            setTimeout(() => {
+              splash.style.display = 'none';
+            }, 500);
+          }
+        });
+        setTimeout(function() {
+          const splash = document.getElementById('splash');
+          if (splash && splash.style.display !== 'none') {
+            splash.classList.add('fade-out');
+            setTimeout(() => {
+              splash.style.display = 'none';
+            }, 500);
+          }
+        }, 5000);
+    </script>
+</head>
+<body>
+<div id="splash">
+    <div aria-label="Loading" class="spinner" role="progressbar"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+<script async src="flutter_bootstrap.js"></script>
+</body>
+</html>

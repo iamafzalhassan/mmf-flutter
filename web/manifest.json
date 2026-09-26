@@ -1,0 +1,35 @@
+{
+    "background_color": "#D4EDD4",
+    "description": "Mahalla Members Form",
+    "display": "standalone",
+    "icons": [
+        {
+            "sizes": "192x192",
+            "src": "icons/Icon-192.png",
+            "type": "image/png"
+        },
+        {
+            "sizes": "512x512",
+            "src": "icons/Icon-512.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "maskable",
+            "sizes": "192x192",
+            "src": "icons/Icon-maskable-192.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "icons/Icon-maskable-512.png",
+            "type": "image/png"
+        }
+    ],
+    "name": "Mahalla Members Form",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "short_name": "MMF",
+    "start_url": ".",
+    "theme_color": "#7ED957"
+}
