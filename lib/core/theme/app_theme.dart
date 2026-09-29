@@ -19,7 +19,7 @@ abstract final class AppTheme {
             backgroundColor: AppColors.green3,
             elevation: 0,
             foregroundColor: AppColors.white1,
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl, horizontal: AppSpacing.xxl),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl, vertical: AppSpacing.xl),
             shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
             textStyle: const TextStyle(fontFamily: fontFamily, fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0.5),
@@ -42,7 +42,7 @@ abstract final class AppTheme {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.black,
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl, horizontal: AppSpacing.xxl),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl, vertical: AppSpacing.xl),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md)),
             side: const BorderSide(color: AppColors.outlineGray, width: AppSpacing.borderMedium),
             textStyle: const TextStyle(fontFamily: fontFamily, fontSize: 16, fontWeight: FontWeight.w500),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mmf/core/theme/app_colors.dart';
+import 'package:mmf/core/theme/app_spacing.dart';
 
 class PageTitle extends StatelessWidget {
   const PageTitle(this.text, {super.key});
@@ -16,7 +17,7 @@ class PageTitle extends StatelessWidget {
                     fontSize: 32,
                     foreground: Paint()
                       ..color = AppColors.black
-                      ..strokeWidth = 1.25
+                      ..strokeWidth = AppSpacing.titleStrokeWidth
                       ..style = PaintingStyle.stroke,
                     height: 1))),
         Text(text, style: const TextStyle(color: AppColors.black, fontSize: 32, height: 1))

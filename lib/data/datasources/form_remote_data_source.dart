@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:mmf/core/error/submission_exception.dart';
 import 'package:mmf/domain/entities/main_form.dart';
 
 abstract interface class FormRemoteDataSource {
@@ -19,11 +20,11 @@ class FormRemoteDataSourceImpl implements FormRemoteDataSource {
     final uri = Uri.parse(_scriptUrl).replace(queryParameters: {'data': base64Url.encode(utf8.encode(jsonEncode(mainForm.toJson()))), 'method': 'submit'});
     final http.Response response;
     try {
-      response = await _client.get(uri).timeout(const Duration(seconds: 30), onTimeout: () => throw Exception('Request timeout - please try again'));
+      response = await _client.get(uri).timeout(const Duration(seconds: 30), onTimeout: () => throw const SubmissionException('Request timeout - please try again'));
     } on http.ClientException {
-      throw Exception('Network error. Please check your connection.');
+      throw const SubmissionException('Network error. Please check your connection.');
     }
-    if (response.statusCode != 200 && response.statusCode != 302) throw Exception('Submission failed: ${response.statusCode}');
+    if (response.statusCode != 200 && response.statusCode != 302) throw SubmissionException('Submission failed: ${response.statusCode}');
     final Object? body;
     try {
       body = jsonDecode(response.body);
@@ -31,7 +32,7 @@ class FormRemoteDataSourceImpl implements FormRemoteDataSource {
       return;
     }
     if (body is Map && body['status'] == 'success') return;
-    if (body is Map && body['status'] == 'error') throw Exception(body['message'] ?? 'Submission failed');
-    throw Exception('Submission failed: ${response.statusCode}');
+    if (body is Map && body['status'] == 'error') throw SubmissionException(body['message']?.toString() ?? 'Submission failed');
+    throw SubmissionException('Submission failed: ${response.statusCode}');
   }
 }

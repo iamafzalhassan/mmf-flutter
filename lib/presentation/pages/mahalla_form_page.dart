@@ -132,11 +132,9 @@ class _MahallaFormPageState extends State<MahallaFormPage> {
   Future<void> _openMemberForm(BuildContext context, MainFormCubit cubit, [int? index]) async {
     final member = await Navigator.push<FamilyMember>(context, MaterialPageRoute(builder: (_) => FamilyFormPage(existingMember: index == null ? null : cubit.state.familyMembers[index])));
     if (member == null) return;
-    if (member.relationship == MainFormCubit.headOfFamily && cubit.hasExistingHead(excludeIndex: index)) {
-      if (context.mounted) context.showErrorSnackBar(index == null ? 'A Head of Family already exists. Only one Head of Family is allowed.' : "A Head of Family already exists. Please change the existing Head's relationship first.");
-      return;
-    }
-    index == null ? cubit.addFamilyMember(member) : cubit.updateFamilyMember(index, member);
+    final accepted = index == null ? cubit.addFamilyMember(member) : cubit.updateFamilyMember(index, member);
+    if (accepted || !context.mounted) return;
+    context.showErrorSnackBar(index == null ? 'A Head of Family already exists. Only one Head of Family is allowed.' : "A Head of Family already exists. Please change the existing Head's relationship first.");
   }
 
   @override
@@ -144,14 +142,6 @@ class _MahallaFormPageState extends State<MahallaFormPage> {
       body: Container(
           decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
           child: BlocConsumer<MainFormCubit, MainFormState>(
-              listener: (context, state) {
-                if (state.errorMessage != null) {
-                  context.showErrorSnackBar(state.errorMessage!);
-                } else if (state.isSuccess) {
-                  context.showSuccessSnackBar('Form submitted successfully.');
-                }
-              },
-              listenWhen: (previous, current) => previous.isSuccess != current.isSuccess || previous.errorMessage != current.errorMessage,
               builder: (context, state) {
                 final cubit = context.read<MainFormCubit>();
                 return SingleChildScrollView(
@@ -184,5 +174,13 @@ class _MahallaFormPageState extends State<MahallaFormPage> {
                                             PrimaryButton(icon: Icons.arrow_circle_right_rounded, isLoading: state.isLoading, onPressed: () => cubit.submit(fieldsValid: _formKey.currentState?.validate() ?? false), text: 'Submit Form')
                                           ]))
                                     ]))))));
-              })));
+              },
+              listener: (context, state) {
+                if (state.errorMessage != null) {
+                  context.showErrorSnackBar(state.errorMessage!);
+                } else if (state.isSuccess) {
+                  context.showSuccessSnackBar('Form submitted successfully.');
+                }
+              },
+              listenWhen: (previous, current) => previous.isSuccess != current.isSuccess || previous.errorMessage != current.errorMessage)));
 }

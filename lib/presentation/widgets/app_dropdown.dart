@@ -30,7 +30,7 @@ class AppDropdown extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: Row(children: [Text(label, style: const TextStyle(color: AppColors.black, fontFamily: AppTheme.fontFamily, fontSize: 18, fontWeight: FontWeight.w600))])),
             const SizedBox(height: AppSpacing.lg),
-            const Divider(height: 0),
+            const Divider(height: AppSpacing.none),
             Flexible(child: ListView(shrinkWrap: true, children: [for (final item in items) _buildOption(context, item)]))
           ])));
 
@@ -54,7 +54,7 @@ class AppDropdown extends StatelessWidget {
       isRequired: isRequired,
       label: label,
       onTap: () =>
-          showModalBottomSheet(backgroundColor: AppColors.white1, builder: _buildSheet, context: context, useSafeArea: true, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)))),
+          showModalBottomSheet(backgroundColor: AppColors.white1, builder: _buildSheet, context: context, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md))), useSafeArea: true),
       readOnly: true,
       suffixIcon: const Icon(Icons.arrow_drop_down_circle_outlined, color: AppColors.gray5, size: AppSpacing.iconMd));
 }

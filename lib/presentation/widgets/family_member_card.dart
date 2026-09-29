@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mmf/core/theme/app_colors.dart';
 import 'package:mmf/core/theme/app_spacing.dart';
 import 'package:mmf/domain/entities/family_member.dart';
+import 'package:mmf/presentation/cubits/main_form_cubit.dart';
 
 class FamilyMemberCard extends StatelessWidget {
   const FamilyMemberCard({super.key, required this.member, required this.onRemove, required this.onTap});
@@ -13,7 +14,7 @@ class FamilyMemberCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isHead = member.relationship == 'Head of Family';
+    final isHead = member.relationship == MainFormCubit.headOfFamily;
 
     return Container(
         decoration: BoxDecoration(

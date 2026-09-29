@@ -94,6 +94,29 @@ void main() {
     });
   });
 
+  group('MainFormCubit.addFamilyMember', () {
+    test('adds members and refuses a second Head of Family', () {
+      expect(cubit.addFamilyMember(member(relationship: MainFormCubit.headOfFamily)), isTrue);
+      expect(cubit.addFamilyMember(member(relationship: 'Son')), isTrue);
+      expect(cubit.addFamilyMember(member(relationship: MainFormCubit.headOfFamily)), isFalse);
+
+      expect(cubit.state.familyMembers.map((m) => m.relationship), <String>[MainFormCubit.headOfFamily, 'Son']);
+    });
+  });
+
+  group('MainFormCubit.updateFamilyMember', () {
+    test('lets the head be edited but refuses making another member head', () {
+      cubit
+        ..addFamilyMember(member(relationship: MainFormCubit.headOfFamily))
+        ..addFamilyMember(member(relationship: 'Son'));
+
+      expect(cubit.updateFamilyMember(0, member(relationship: MainFormCubit.headOfFamily)), isTrue);
+      expect(cubit.updateFamilyMember(1, member(relationship: MainFormCubit.headOfFamily)), isFalse);
+
+      expect(cubit.state.familyMembers.map((m) => m.relationship), <String>[MainFormCubit.headOfFamily, 'Son']);
+    });
+  });
+
   group('MainFormCubit.hasExistingHead', () {
     test('ignores the member being edited', () {
       cubit.addFamilyMember(member(relationship: 'Head of Family'));

@@ -13,7 +13,11 @@ class MainFormCubit extends Cubit<MainFormState> {
 
   MainFormCubit(this._submitForm) : super(MainFormState(refNo: _newRefNo()));
 
-  void addFamilyMember(FamilyMember member) => emit(state.copyWith(familyMembers: [...state.familyMembers, member]));
+  bool addFamilyMember(FamilyMember member) {
+    if (_isSecondHead(member)) return false;
+    emit(state.copyWith(familyMembers: [...state.familyMembers, member]));
+    return true;
+  }
 
   void removeFamilyMember(int index) => emit(state.copyWith(familyMembers: [
         for (final (i, member) in state.familyMembers.indexed)
@@ -38,7 +42,11 @@ class MainFormCubit extends Cubit<MainFormState> {
 
   void updateFamiliesCount(String value) => emit(state.copyWith(familiesCount: value));
 
-  void updateFamilyMember(int index, FamilyMember member) => emit(state.copyWith(familyMembers: [for (final (i, old) in state.familyMembers.indexed) i == index ? member : old]));
+  bool updateFamilyMember(int index, FamilyMember member) {
+    if (_isSecondHead(member, index)) return false;
+    emit(state.copyWith(familyMembers: [for (final (i, old) in state.familyMembers.indexed) i == index ? member : old]));
+    return true;
+  }
 
   void updateOwnership(String value) => emit(state.copyWith(ownership: value));
 
@@ -50,4 +58,6 @@ class MainFormCubit extends Cubit<MainFormState> {
     emit(state.copyWith());
     emit(state.copyWith(errorMessage: message));
   }
+
+  bool _isSecondHead(FamilyMember member, [int? excludeIndex]) => member.relationship == headOfFamily && hasExistingHead(excludeIndex: excludeIndex);
 }

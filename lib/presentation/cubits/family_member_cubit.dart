@@ -1,14 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mmf/domain/entities/family_member.dart';
+import 'package:mmf/presentation/cubits/main_form_cubit.dart';
 
 class FamilyMemberCubit extends Cubit<FamilyMember> {
+  static const String vocationalCourse = 'Vocational Course';
+
   FamilyMemberCubit(super.initialState);
 
   void toggleMadarasa(String value) => emit(state.copyWith(madarasa: _toggled(state.madarasa, value)));
 
   void toggleProfessionalQualification(String value) {
     final list = _toggled(state.professionalQualifications, value);
-    emit(state.copyWith(professionalQualifications: list, professionalQualificationsDetails: list.isEmpty ? '' : null, vocationalCourseDetails: list.contains('Vocational Course') ? null : ''));
+    emit(state.copyWith(professionalQualifications: list, professionalQualificationsDetails: list.isEmpty ? '' : null, vocationalCourseDetails: list.contains(vocationalCourse) ? null : ''));
   }
 
   void toggleSchoolEducation(String value) => emit(state.copyWith(alYear: value == 'A/L' && state.schoolEducation.contains(value) ? '' : null, schoolEducation: _toggled(state.schoolEducation, value)));
@@ -26,9 +29,9 @@ class FamilyMemberCubit extends Cubit<FamilyMember> {
   void updateGender(String value) => emit(state.copyWith(gender: value, relationship: relationshipsFor(value).contains(state.relationship) ? null : '', ulama: state.ulama.where(ulamaFor(value).contains).toList()));
 
   static List<String> relationshipsFor(String gender) => switch (gender) {
-        'Male' => const ['Head of Family', 'Spouse', 'Son', 'Father', 'Brother', 'Grandson', 'Other'],
-        'Female' => const ['Head of Family', 'Spouse', 'Daughter', 'Mother', 'Sister', 'Granddaughter', 'Other'],
-        _ => const ['Head of Family', 'Spouse', 'Son', 'Daughter', 'Father', 'Mother', 'Brother', 'Sister', 'Grandson', 'Granddaughter', 'Other'],
+        'Male' => const [MainFormCubit.headOfFamily, 'Spouse', 'Son', 'Father', 'Brother', 'Grandson', 'Other'],
+        'Female' => const [MainFormCubit.headOfFamily, 'Spouse', 'Daughter', 'Mother', 'Sister', 'Granddaughter', 'Other'],
+        _ => const [MainFormCubit.headOfFamily, 'Spouse', 'Son', 'Daughter', 'Father', 'Mother', 'Brother', 'Sister', 'Grandson', 'Granddaughter', 'Other'],
       };
 
   static List<String> ulamaFor(String gender) => switch (gender) {

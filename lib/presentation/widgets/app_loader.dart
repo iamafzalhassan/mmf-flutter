@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mmf/core/theme/app_spacing.dart';
 
 class AppLoader extends StatelessWidget {
-  const AppLoader({super.key, this.radius = 10, this.color});
+  const AppLoader({super.key, this.radius = AppSpacing.loaderRadius, this.color});
 
   final double radius;
 

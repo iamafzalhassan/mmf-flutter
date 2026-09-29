@@ -5,6 +5,7 @@ import 'package:mmf/core/theme/app_colors.dart';
 import 'package:mmf/core/theme/app_spacing.dart';
 import 'package:mmf/domain/entities/family_member.dart';
 import 'package:mmf/presentation/cubits/family_member_cubit.dart';
+import 'package:mmf/presentation/cubits/main_form_cubit.dart';
 import 'package:mmf/presentation/widgets/app_dropdown.dart';
 import 'package:mmf/presentation/widgets/app_text_field.dart';
 import 'package:mmf/presentation/widgets/checkbox_grid.dart';
@@ -50,7 +51,7 @@ class _FamilyFormPageState extends State<FamilyFormPage> {
       ]));
 
   Widget _buildPersonalInfo(FamilyMember member) {
-    final isHead = member.relationship == 'Head of Family';
+    final isHead = member.relationship == MainFormCubit.headOfFamily;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const Row(children: [
         Icon(Icons.person_rounded, color: AppColors.green3, size: AppSpacing.iconLg),
@@ -187,7 +188,7 @@ class _FamilyFormPageState extends State<FamilyFormPage> {
                                           const SizedBox(height: AppSpacing.xxl),
                                           _buildSection(Icons.school_rounded, 'Professional Qualifications', [
                                             CheckboxGrid(
-                                                items: const ['Certificate', 'Diploma', 'Degree', "Master's Degree", 'Phd', 'Vocational Course'],
+                                                items: const ['Certificate', 'Diploma', 'Degree', "Master's Degree", 'Phd', FamilyMemberCubit.vocationalCourse],
                                                 onChanged: _cubit.toggleProfessionalQualification,
                                                 selectedItems: member.professionalQualifications),
                                             if (member.professionalQualifications.isNotEmpty) ...[
@@ -200,7 +201,7 @@ class _FamilyFormPageState extends State<FamilyFormPage> {
                                                   onChanged: _cubit.updateProfessionalQualificationsDetails,
                                                   validator: (value) => (value?.isEmpty ?? true) ? 'Please specify your qualifications' : null)
                                             ],
-                                            if (member.professionalQualifications.contains('Vocational Course')) ...[
+                                            if (member.professionalQualifications.contains(FamilyMemberCubit.vocationalCourse)) ...[
                                               const SizedBox(height: AppSpacing.lg),
                                               AppTextField(
                                                   hintText: 'e.g. Plumbing, Electrical, Welding',
